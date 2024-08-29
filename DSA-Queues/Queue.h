@@ -1,6 +1,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include <stdbool.h>
+
 typedef struct  
 {
     int* data;
@@ -9,16 +11,14 @@ typedef struct
     int front;
 } Queue;
 
-Queue createQueue(int max) {
-    Queue newQ;
 
-    newQ.max = max;
-    newQ.rear = 0;
-    newQ.front = 1;
 
-    
-}
-
+Queue createQueue(int max);
+bool isEmpty(Queue q);
+bool isFull(Queue q);
+bool enqueue(Queue *q, int data);
+bool dequeue(Queue *q);
+int front(Queue *q);
 
 
 #endif
