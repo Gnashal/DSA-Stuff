@@ -92,6 +92,10 @@ void display(Queue q) {
     int displayCount = 0;
     Student firstNodeSnapshot = front(q);
     while (!isEmpty(q) && displayCount < 1) {
+        if (compareStudents(firstNodeSnapshot, next(q))) {
+            displayCount++;
+        }
+        
         printf("| %-10s | %-10s | %-7d | %-6s | %-4s |\n", 
             q.head->data.studName.fname,
             q.head->data.studName.lname, 
@@ -100,11 +104,7 @@ void display(Queue q) {
             getProgramString(q.head->data.program)
         );
         enqueue(&q, front(q));
-        dequeue(&q);
-
-        if (compareStudents(firstNodeSnapshot, next(q))) {
-            displayCount++;
-        }
+        dequeue(&q); 
     }
     printf("-------------------------------------------------------------\n");
 }
