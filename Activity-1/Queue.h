@@ -88,14 +88,7 @@ void display(Queue q) {
     printf("\n-------------------------------------------------------------\n");
     printf("| %-10s | %-10s | %-7s | %-6s | %-4s |\n", "First Name", "Last Name", "ID", "Sex", "Program");
     printf("-------------------------------------------------------------\n");
-
-    int displayCount = 0;
-    Student firstNodeSnapshot = front(q);
-    while (!isEmpty(q) && displayCount < 1) {
-        if (compareStudents(firstNodeSnapshot, next(q))) {
-            displayCount++;
-        }
-        
+    while (!isEmpty(q) && q.head) {
         printf("| %-10s | %-10s | %-7d | %-6s | %-4s |\n", 
             q.head->data.studName.fname,
             q.head->data.studName.lname, 
@@ -103,10 +96,44 @@ void display(Queue q) {
             getSexString(q.head->data.sex), 
             getProgramString(q.head->data.program)
         );
-        enqueue(&q, front(q));
-        dequeue(&q); 
+       
+       q.head = q.head->next;
     }
     printf("-------------------------------------------------------------\n");
 }
 
+int getQueueSize (Queue q) {
+    int size = 0;
+    while (!isEmpty(q) && q.head) {
+        size++;
+        q.head = q.head->next;
+    }
+    return size;
+}
+
+Name* getStudent (Queue q, char* program, char* sex) {
+    int size = getQueueSize(q);
+    Name temp[size + 1];
+    int index = 0;
+    while (!isEmpty(q) && q.head)
+    {
+        if (strcmp(getProgramString(q.head->data.program), program) == 0 && 
+        strcmp(getSexString(q.head->data.sex), sex ) == 0) {
+            strcpy(temp[index].fname, q.head->data.studName.fname);
+            strcpy(temp[index].lname, q.head->data.studName.lname);
+            index++;
+        }
+
+        q.head = q.head->next;
+    }
+    strcpy(temp[index].fname, "");
+    strcpy(temp[index].lname, "");
+
+    Name* names = malloc(sizeof(Name) * (index + 1));
+    if (names) {
+        memcpy(names, temp, sizeof(Name) * (index + 1));
+    }
+    return names;
+    
+}
 #endif  
