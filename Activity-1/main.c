@@ -12,7 +12,7 @@ int main() {
 
     for (int i = 0; i < 10; ++i) {
         Name name = createName(firstNames[i], lastNames[i]);
-        Student student = createStudent(i + 100, name, i % 2 == 0 ? MALE : FEMALE, i % 4 == 0 ? BSIT : i % 4 == 1 ? BSCS : i % 4 == 2 ? BSIS : BSCE);
+        Student student = createStudent(100 + i, name, i % 2 == 0 ? MALE : FEMALE, i % 4 == 0 ? BSIT : i % 4 == 1 ? BSCS : i % 4 == 2 ? BSIS : BSCE);
         enqueue(&q, student);
     }
     display(q);
