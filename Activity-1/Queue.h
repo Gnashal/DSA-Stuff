@@ -84,6 +84,14 @@ bool compareStudents(Student s1, Student s2) {
     return true;
 }
 
+
+bool compareNamesByValue(Name name1, Name name2) {  
+    if (strcmp(name1.fname, name2.fname) == 0) {
+        return strcmp(name1.lname, name2.lname) > 0;
+    }
+    return strcmp(name1.fname, name2.fname) > 0;
+}
+
 void display(Queue q) {
     printf("\n-------------------------------------------------------------\n");
     printf("| %-10s | %-10s | %-7s | %-6s | %-4s |\n", "First Name", "Last Name", "ID", "Sex", "Program");
@@ -134,6 +142,66 @@ Name* getStudent (Queue q, char* program, char* sex) {
         memcpy(names, temp, sizeof(Name) * (index + 1));
     }
     return names;
-    
+}
+
+void swap_now (NodePtr a, NodePtr b) {
+    Student temp = a->data;
+    a->data =b->data;
+    b->data = temp;
+}
+  
+void sort (Queue *q) {
+    if (isEmpty(*q)) return;
+
+    NodePtr last = NULL;
+    NodePtr curr;
+    bool isSwapped;
+
+    do {
+        isSwapped = false;
+        curr = q->head;
+
+        while (curr->next != last) {
+            if (compareNamesByValue(curr->data.studName, curr->next->data.studName)) {
+            swap_now(curr, curr->next);
+            isSwapped = true;
+
+            }
+        curr = curr->next;
+        }
+        last = curr;
+
+    } while (isSwapped);
+
+}
+
+void insertSorted (Queue *q, Student data) {
+    NodePtr temp = malloc(sizeof(NodeType));
+    temp->data = data;
+    temp->next = NULL;
+
+    NodePtr headSnapsot = q->head;
+
+    // Checking for insert at HEAD
+    if (q->head == NULL || q->head->data.studID >= data.studID) {
+       temp->next = q->head;
+       q->head = temp;
+       if (!q->tail) {
+        q->tail = temp;
+       }
+       return;
+    }
+
+    // NodePtr curr = q->head;
+    while (q->head->next && q->head->next->data.studID < data.studID) {
+        q->head = q->head->next;
+    }
+    temp->next = q->head->next;
+    q->head->next = temp;
+
+    if (!temp->next) {
+        q->tail = temp;
+    }
+    q->head = headSnapsot;
 }
 #endif  

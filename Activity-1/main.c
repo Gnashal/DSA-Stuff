@@ -12,31 +12,52 @@ int main() {
 
     for (int i = 0; i < 10; ++i) {
         Name name = createName(firstNames[i], lastNames[i]);
-        Student student = createStudent(100 + i, name, i % 2 == 0 ? MALE : FEMALE, i % 4 == 0 ? BSIT : i % 4 == 1 ? BSCS : i % 4 == 2 ? BSIS : BSCE);
-        enqueue(&q, student);
+        Student student = createStudent(rand() % 1000, name, i % 2 == 0 ? MALE : FEMALE, i % 4 == 0 ? BSIT : i % 4 == 1 ? BSCS : i % 4 == 2 ? BSIS : BSCE);
+        insertSorted(&q, student);
     }
     display(q);
 
-    String program, sex;
-    printf("\nEnter program: ");
-    scanf("%s", program);
-    printf("\nEnter sex: ");
-    scanf("%s", sex);
+    // Name name1;
+    // strcpy(name1.fname, "GORLOCK");
+    // strcpy(name1.lname, "BAYOT");
+    // Student stud1 = createStudent(1100,name1,MALE, BSCS);
 
-    Name *names = getStudent(q, program, sex);
+    // insertSorted(&q, stud1);
+    // display(q);
 
-    printf("\n-------------------------------------------------------------\n");
-    printf("| %-10s | %-10s |\n", "First Name", "Last Name");
-    printf("-------------------------------------------------------------\n");
+    // Name name2;
+    // strcpy(name2.fname, "WHAT");
+    // strcpy(name2.lname, "THEFUCK");
+    // Student stud2 = createStudent(500,name2,FEMALE, BSCE);
 
-      for (int i = 0; strcmp(names[i].fname, "") != 0; ++i) {
-        printf("| %-10s | %-10s |\n", 
-            names[i].fname,
-            names[i].lname
-        );
-    }
+    // insertSorted(&q, stud2);
+    // display(q);
 
-    free(names);
+    
+
+    // String program, sex;
+    // printf("\nEnter program: ");
+    // scanf("%s", program);
+    // printf("\nEnter sex: ");
+    // scanf("%s", sex);
+
+    // Name *names = getStudent(q, program, sex);
+
+    // printf("\n-------------------------------------------------------------\n");
+    // printf("| %-10s | %-10s |\n", "First Name", "Last Name");
+    // printf("-------------------------------------------------------------\n");
+
+    //   for (int i = 0; strcmp(names[i].fname, "") != 0; ++i) {
+    //     printf("| %-10s | %-10s |\n", 
+    //         names[i].fname,
+    //         names[i].lname
+    //     );
+    // }
+
+    // sort(&q);
+    // display(q);
+
+    // free(names);
 
     return 0;
 }
