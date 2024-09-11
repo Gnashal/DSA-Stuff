@@ -176,14 +176,13 @@ void sort (Queue *q) {
 }
 
 void insertSorted (Queue *q, Student data) {
+    Queue tempQ = createQueue();
     NodePtr temp = malloc(sizeof(NodeType));
     temp->data = data;
     temp->next = NULL;
 
-    NodePtr headSnapsot = q->head;
-
     // Checking for insert at HEAD
-    if (q->head == NULL || q->head->data.studID >= data.studID) {
+    if (isEmpty(*q)|| q->head->data.studID >= data.studID) {
        temp->next = q->head;
        q->head = temp;
        if (!q->tail) {
@@ -191,10 +190,9 @@ void insertSorted (Queue *q, Student data) {
        }
        return;
     }
-
-    // NodePtr curr = q->head;
-    while (q->head->next && q->head->next->data.studID < data.studID) {
-        q->head = q->head->next;
+    while (q->head->next->data.studID < data.studID) {
+        enqueue(&tempQ, front(*q));
+        dequeue(q);
     }
     temp->next = q->head->next;
     q->head->next = temp;
@@ -202,6 +200,12 @@ void insertSorted (Queue *q, Student data) {
     if (!temp->next) {
         q->tail = temp;
     }
-    q->head = headSnapsot;
+
+    while(!isEmpty(*q)) {
+        enqueue(&tempQ, front(*q));
+        dequeue(q);
+    }
+    q->head = tempQ.head;
+    makeNull(&tempQ);
 }
 #endif  
