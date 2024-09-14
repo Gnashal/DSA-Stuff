@@ -88,32 +88,27 @@ Name front(NQueue nq) {
   fname and lname. If there are no names that will match then the
   function should return the sentinel.*/
 Name *filterNames(NQueue *nq, char *filterString) {
-  Name temp[nq->max];
+  int queueSize = (nq->rear >= nq->front) ? (nq->rear - nq->front + 1) : (nq->max - nq->front + nq->rear + 1);
+   Name* names = malloc(sizeof(Name) * (queueSize + 1));
   int size = 0;
-  int front = nq->front;
+  int front_curr = nq->front;
   while (1) {
-    if (strcmp(nq->elems[front].lname, filterString) == 0) {
-      strcpy(temp[size].fname, nq->elems[front].fname);
-      strcpy(temp[size].lname, nq->elems[front].lname);
-      size++;
+    if (strcmp(nq->elems[front_curr].lname, filterString) == 0) {
+    names[size++] = nq->elems[front_curr];
+      dequeue(nq);
     }
 
-    if (front == nq->rear) {
+    if (front_curr == nq->rear) {
       break;
     }
 
-    front = (front + 1) % nq->max;
+    front_curr = (front_curr + 1) % nq->max;
   }
 
-  strcpy(temp[size].fname, "");
-  strcpy(temp[size].lname, "");
+  strcpy(names[size].fname, "");
+  strcpy(names[size].lname, "");
 
-  Name* returnArray = malloc(sizeof(Name) * (size + 1));
-  if (returnArray) {
-    memcpy(returnArray, temp, sizeof(Name) * (size + 1));
-  }
-
-  return returnArray;
+  return names;
 
 }
 
