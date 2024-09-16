@@ -73,7 +73,6 @@ int getMiddle (Stack* s) {
         printf("Stack is empty\n");
         return -1;
     }
-
     Stack tempStack = createStack(s->max);
     Stack copyStack = *s;
     int middleIndex = copyStack.max / 2;
@@ -85,7 +84,28 @@ int getMiddle (Stack* s) {
     makeNUll(&tempStack);
     makeNUll(&copyStack);
 
-    return middle;
+    return middle; 
+}
+
+int getMax(Stack *s) {
+    if (isEmpty(*s)) {
+        printf("Stack is empty\n");
+        return -1;
+    }
+
+    int max = 0;
+    Stack tempStack = createStack(s->max);
+    Stack copyStack = *s;
+    while (!isEmpty(copyStack))
+    {
+        max = (max > peek(copyStack)) ? max : peek(copyStack);
+        push(&tempStack, pop(&copyStack));
+    }
+
+    makeNUll(&tempStack);
+    makeNUll(&copyStack);
+
+    return max;
     
 }
 
@@ -110,6 +130,10 @@ void displayStack(Stack s) {
         return;
     }
 }
+
+// void sortStack(Stack s) {
+
+// }
 
 
 

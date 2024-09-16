@@ -23,11 +23,12 @@ int main () {
    printf("Dump stack: \n");
    displayStack(dumpStack);
     
-    // for (int i = 0; i < mainStack.max; ++i) {
-    //     printf("%d ", mainStack.data[i]);
-    // }
-    // printf("\n");
+
    int middle = getMiddle(&dumpStack);
    printf("The middle of the stack is: %d\n", middle);
+   int max = getMax(&dumpStack);
+   printf("The maximum number of the stack is: %d\n", max);
+    
+    
     return 0;
 }
