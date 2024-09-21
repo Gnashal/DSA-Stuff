@@ -73,7 +73,6 @@ bool insert(HashTable * ht, Student s) {
     }
 
     NodePtr curr = ht->elems[pos];
-    // NodePtr prev = NULL;
     while (curr->next != NULL && curr->stud.studID < s.studID) {
         curr = curr->next;
     }
@@ -82,32 +81,6 @@ bool insert(HashTable * ht, Student s) {
 
     return true;
 }
-
-// bool insertSorted(NodePtr* head, Student s) {
-//     NodePtr newNode = (NodePtr)malloc(sizeof(Node));
-//     newNode->next = NULL;
-//     newNode->stud = s;
-//     NodePtr holder = NULL;
-
-//       if (*head == NULL || (*head)->stud.studID > s.studID) {
-//         newNode->next = *head;
-//         *head = newNode;
-//         return true;
-//     }
-//     NodePtr curr = *head;
-//     // NodePtr prev = NULL;
-//     while (curr->next != NULL && curr->stud.studID < s.studID) {
-//         curr = curr->next;
-//     }
-//     newNode->next = curr->next;
-//     curr->next = newNode;
-
-//     return true;
-// }   
-
-// bool deleteHash(HashTable *ht, Student s) {
-
-// }
 
 void visualize(HashTable ht) {
     for (int i = 0; i < MAX; ++i) {

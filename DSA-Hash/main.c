@@ -8,8 +8,8 @@ int main() {
 
     Student students[] = {
         createStudents("Computer Science", "Alice", 1001),
-        createStudents("Computer Science", "Alisha", 1001),
-        createStudents("Physics", "Charlie", 1003),
+        createStudents("Computer Science", "Alisha", 1008),
+        createStudents("Computer Science", "Alivine", 1003),
         createStudents("Engineering", "David", 1004),
         createStudents("Biology", "Eva", 1005),
         createStudents("Chemistry", "Frank", 1006),
