@@ -46,14 +46,19 @@ bool enqueue (Queue* q, Student s) {
     return false;
 }
 
-bool dequeue (Queue *q) {
+Student dequeue (Queue *q) {
     NodePtr temp = NULL;
+    Student value;
+    value = q->head->data;
     if (!isEmpty(*q)) {
         temp = q->head;
         q->head = q->head->next;
         free(temp);
     }
-    return false;
+    if (!q->head) {
+        q->tail = NULL;
+    }
+    return value;
 }
 Student front (Queue q) {
     return q.head->data;
@@ -175,37 +180,19 @@ void sort (Queue *q) {
 
 }
 
-void insertSorted (Queue *q, Student data) {
-    Queue tempQ = createQueue();
-    NodePtr temp = malloc(sizeof(NodeType));
-    temp->data = data;
-    temp->next = NULL;
+bool insertSorted (Queue *q, Student data) {
+  Queue tempQ = createQueue();
 
-    // Checking for insert at HEAD
-    if (isEmpty(*q)|| q->head->data.studID >= data.studID) {
-       temp->next = q->head;
-       q->head = temp;
-       if (!q->tail) {
-        q->tail = temp;
-       }
-       return;
-    }
-    while (q->head->next->data.studID < data.studID) {
-        enqueue(&tempQ, front(*q));
-        dequeue(q);
-    }
-    temp->next = q->head->next;
-    q->head->next = temp;
+  while (!isEmpty(*q) && q->head->data.studID < data.studID) 
+  {
+    enqueue(&tempQ, dequeue(q));
+  }
+  enqueue(&tempQ, data);
 
-    if (!temp->next) {
-        q->tail = temp;
-    }
-
-    while(!isEmpty(*q)) {
-        enqueue(&tempQ, front(*q));
-        dequeue(q);
-    }
-    q->head = tempQ.head;
-    makeNull(&tempQ);
+  while(!isEmpty(tempQ)) {
+    enqueue(q, dequeue(&tempQ)); 
+  }
+  return true;
+  
 }
 #endif  

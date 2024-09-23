@@ -17,6 +17,11 @@ int main() {
     }
     display(q);
 
+    //   for (int i = 0; i < 10; ++i) {
+    //     dequeue(&q);
+    // }
+    // display(q);
+
     // Name name1;
     // strcpy(name1.fname, "GORLOCK");
     // strcpy(name1.lname, "BAYOT");
