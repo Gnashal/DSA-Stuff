@@ -35,8 +35,8 @@ int main() {
     }
 
 
-
     visualize(ht);
 
+    free(ht.elems);
     return 0;
 }

@@ -71,10 +71,10 @@ int getHash(Student s, int max) {
 }
 
 bool insert (HashTable *ht, Student s) {
-    int pos = getHash(s, ht->max);
-    if (ht->count > ht->max * 0.80) {
+    if (ht->count >= ht->max * 0.80) {
         return false;
     }
+    int pos = getHash(s, ht->max);
     while (!isEmpty(*ht, pos) )
     {
         pos++;
