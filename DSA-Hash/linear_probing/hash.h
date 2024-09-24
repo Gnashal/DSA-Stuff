@@ -96,6 +96,3 @@ void visualize(HashTable ht) {
 
 
 #endif
-
-// jcarlomaster105@gmail.com
-// 23101479@usc.edu.ph
