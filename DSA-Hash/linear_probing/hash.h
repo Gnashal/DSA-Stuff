@@ -47,7 +47,7 @@ HashTable createHashTable(int max) {
     HashTable newHashTable;
     newHashTable.max = max;
     newHashTable.count = 0;
-    newHashTable.elems = (Data*)calloc(sizeof(HashTable) , newHashTable.max);
+    newHashTable.elems = (Data*)calloc(sizeof(Data) , newHashTable.max);
     for (int i = 0; i < newHashTable.max; ++i) {
         newHashTable.elems[i].flag = EMPTY;
     }
