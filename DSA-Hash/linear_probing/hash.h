@@ -28,12 +28,14 @@ bool isEmpty(HashTable ht, int pos) {
     return ht.elems[pos].flag == EMPTY;
 }
 bool isFull(HashTable ht, int pos) {
-    while(!isEmpty(ht, pos)) {
+    int originalPos = pos;
+    do {
         if (ht.elems[pos].flag == EMPTY || ht.elems[pos].flag == DELETED ) {
             return false;
         }
-        pos++;
-    }
+        pos = (pos + 1) % ht.max;
+    } while(pos != originalPos);
+    return true;
 }
 Student createStudents(char* program, char* name, int id) {
     Student newStud;
@@ -71,17 +73,26 @@ int getHash(Student s, int max) {
 }
 
 bool insert (HashTable *ht, Student s) {
-    if (ht->count >= ht->max * 0.80) {
-        return false;
-    }
     int pos = getHash(s, ht->max);
-    while (!isEmpty(*ht, pos) )
-    {
-        pos++;
-    }
-        ht->elems[pos].data = s;
-        ht->elems[pos].flag = OCCUPIED;
-        ht->count++;
+    int originalPos = pos;
+    if (!isFull(*ht, pos) && ht->count < ht->max * 0.80) {
+        while (!isEmpty(*ht, pos) )
+        {
+            pos = (pos + 1) % ht->max;
+        }
+            ht->elems[pos].data = s;
+            ht->elems[pos].flag = OCCUPIED;
+            ht->count++;
+            return true;
+    } 
+        ht->max *= 2;
+        ht->elems = realloc(ht->elems,sizeof(Data) * (ht->max));
+        for (int i = ht->count; i < ht->max; ++i) {
+            ht->elems[i].flag = EMPTY;
+        }
+    
+
+    return false;
 }
 
 void visualize(HashTable ht) {
