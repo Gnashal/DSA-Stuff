@@ -63,7 +63,6 @@ bool insert(HashTable * ht, Student s) {
     NodePtr newNode = (NodePtr)malloc(sizeof(Node));
     newNode->next = NULL;
     newNode->stud = s;
-    NodePtr holder = NULL;
     int pos = getHash(s);
 
       if (ht->elems[pos] == NULL || ht->elems[pos]->stud.studID > s.studID) {

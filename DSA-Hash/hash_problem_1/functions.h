@@ -87,8 +87,8 @@ ProdDict createDict(int max) {
     ProdDict newDict;
     newDict.max = max;
     newDict.count = 0;
-    newDict.data = (NodePtr*)calloc(sizeof(NodeType) , newDict.max);
-      for (int i = 0; i < newDict.max; ++i) {
+    newDict.data = (NodePtr*)malloc(sizeof(NodeType) * newDict.max);
+      for (int i = 0; i < newDict.max; i++) {
         newDict.data[i] = NULL;
     }
     
@@ -145,15 +145,14 @@ bool add (ProdDict* dict, Product p) {
 
     NodePtr *trav = &(dict->data[pos]);
         while (*trav) {
-
             if (strcmp((*trav)->prod.prodName, p.prodName)== 0 && (*trav)->prod.prodID == p.prodID){
                 (*trav)->prod.prodQty += p.prodQty;
                 return true;
             } 
             *trav =(*trav)->next;
         }
-        newProd->next = (*trav)->next;
-        (*trav)->next = newProd;
+        newProd->next = (*trav);
+        (*trav) = newProd;
         dict->count++;
         return true;
 }
