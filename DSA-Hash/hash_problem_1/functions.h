@@ -88,6 +88,9 @@ ProdDict createDict(int max) {
     newDict.max = max;
     newDict.count = 0;
     newDict.data = (NodePtr*)calloc(sizeof(NodeType) , newDict.max);
+      for (int i = 0; i < newDict.max; ++i) {
+        newDict.data[i] = NULL;
+    }
     
     return newDict;
 }
