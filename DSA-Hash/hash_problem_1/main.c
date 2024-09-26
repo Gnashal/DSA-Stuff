@@ -8,7 +8,7 @@ int main() {
     Product products[] = {
         createProduct(rand() % 100, "WidgetA", 100, 19.99),
         createProduct(rand() % 100, "GadgetB", 150, 29.99),
-        createProduct(rand() % 100, "ThingamajigC", 200, 9.99),
+        createProduct(rand() % 100, "WOOWW", 200, 9.99),
         createProduct(rand() % 100, "DoohickeyD", 75, 49.99),
         createProduct(rand() % 100, "ContraptionE", 30, 39.99),
         createProduct(rand() % 100, "WidgetA", 50, 19.99), // Duplicate ID with different quantity
@@ -41,7 +41,14 @@ int main() {
     //     add(&dict, products[i]);
     // }
     add(&dict, products[2]);
-    printf("%s", dict.data[0]->prod.prodName);
+    int pos = getHash(products[2].prodName, products[2].prodID, dict.max);
+    printf("%s\n", dict.data[pos]->prod.prodName);
+    Product getter = get(&dict, products[2].prodName, products[2].prodID);
+    printf("%d %s", getter.prodID, getter.prodName);
+    //  if (removeInDict(&dict, "WOOW", 200) ) {
+    //     printf("true");
+    //  }
+    // printf("%d %s", dict.data[pos]->prod.prodName, dict.data[pos]->prod.prodID);
 
 
 

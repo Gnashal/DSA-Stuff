@@ -57,7 +57,7 @@ bool push(Stack* s, Product data) {
 }
 Product pop(Stack* s) {
     Product poppedProd = createProduct(0,"", 0, 0.0);
-    if (!isEmpty) {
+    if (!isEmpty(*s)) {
         NodePtr temp = *s;
         poppedProd = (*s)->prod;
         *s = temp->next;
@@ -106,17 +106,13 @@ int getHash(char* name, int id, int max) {
     return hashValue % max;
 }
 Product get(ProdDict * dict, char* name, int id) {
-    Product returnProd = createProduct(0, "",0, 0.0);
     int pos = getHash(name, id, dict->max);
-    while(1) {
-        if (strcmp(dict->data[pos]->prod.prodName, name)== 0 && dict->data[pos]->prod.prodID == id){
-            returnProd = dict->data[pos]->prod;
-        } else {
-            break;
-        }
-       dict->data[pos] =  dict->data[pos]->next;
+    NodePtr trav = dict->data[pos];
+    for(; trav != NULL && (strcmp(trav->prod.prodName, name) != 0 || trav->prod.prodID != id); trav = trav->next){}
+    
+    if (trav) {
+        return trav->prod;
     }
-    return returnProd;
 }
 bool isItThere(NodePtr* list, char* name, int id, int max) {
     int pos = getHash(name, id, max);
@@ -149,7 +145,7 @@ bool add (ProdDict* dict, Product p) {
                 (*trav)->prod.prodQty += p.prodQty;
                 return true;
             } 
-            *trav =(*trav)->next;
+            trav = &(*trav)->next;
         }
         newProd->next = (*trav);
         (*trav) = newProd;
