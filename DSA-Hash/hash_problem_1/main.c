@@ -1,7 +1,8 @@
 #include "functions.h"
 #include <stdlib.h>
 
-int main() {
+int main()
+{
     Stack productStack;
     initStack(&productStack);
 
@@ -26,32 +27,32 @@ int main() {
         createProduct(rand() % 100, "GadgetP", 55, 19.95),
         createProduct(rand() % 100, "ThingQ", 85, 15.00),
         createProduct(rand() % 100, "ItemR", 60, 27.50),
-        createProduct(rand() % 100, "ToolS", 100, 10.00)
-    };
+        createProduct(rand() % 100, "ToolS", 100, 10.00)};
 
-    for (int i = 0; i < sizeof(products)/sizeof(products[0]); i++) {
+    for (int i = 0; i < sizeof(products) / sizeof(products[0]); i++)
+    {
         push(&productStack, products[i]);
     }
-
 
     visualizeStack(productStack);
 
     ProdDict dict = createDict(20);
-    // for (int i = 0; i < sizeof(products)/sizeof(products[0]); i++) {
-    //     add(&dict, products[i]);
-    // }
-    add(&dict, products[2]);
-    int pos = getHash(products[2].prodName, products[2].prodID, dict.max);
-    printf("%s\n", dict.data[pos]->prod.prodName);
-    Product getter = get(&dict, products[2].prodName, products[2].prodID);
-    printf("%d %s", getter.prodID, getter.prodName);
-    //  if (removeInDict(&dict, "WOOW", 200) ) {
-    //     printf("true");
-    //  }
-    // printf("%d %s", dict.data[pos]->prod.prodName, dict.data[pos]->prod.prodID);
+    for (int i = 0; i < sizeof(products) / sizeof(products[0]); i++)
+    {
+        add(&dict, products[i]);
+    }
 
+    vissualizeDict(dict);
 
-
+    // Freeing the data
+    for (int i = 0; i < dict.max; ++i)
+    {
+        if (dict.data[i])
+        {
+            free(dict.data[i]);
+        }
+    }
+    free(dict.data);
 
     return 0;
 }
