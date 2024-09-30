@@ -72,6 +72,16 @@ Product pop(Stack *s)
     return poppedProd;
 }
 
+bool hardPop(Stack *s)
+{
+    if (!isEmpty(*s))
+    {
+        NodePtr temp = *s;
+        *s = temp->next;
+        free(temp);
+    }
+}
+
 Product peek(Stack s)
 {
     return s->prod;
@@ -84,14 +94,21 @@ void initStack(Stack *s)
 
 void visualizeStack(Stack s)
 {
-    printf("STACK\n");
-    printf("%10s|%15s|%10s|%10s |\n", "Product ID", "Product Name", "Prodcut Quantity", "Product Price");
-    while (s)
+    if (!isEmpty(s))
     {
-        printf("%10d|%15s|%10d|%10.2f |\n", s->prod.prodID, s->prod.prodName, s->prod.prodQty, s->prod.prodPrice);
-        s = s->next;
+        printf("STACK\n");
+        printf("%10s|%15s|%10s|%10s |\n", "Product ID", "Product Name", "Prodcut Quantity", "Product Price");
+        while (s)
+        {
+            printf("%10d|%15s|%10d|%10.2f |\n", s->prod.prodID, s->prod.prodName, s->prod.prodQty, s->prod.prodPrice);
+            s = s->next;
+        }
+        printf("\n\n");
     }
-    printf("\n\n");
+    else
+    {
+        printf("\nStack is currently empty\n");
+    }
 }
 ProdDict createDict(int max)
 {
@@ -200,14 +217,14 @@ bool removeInDict(ProdDict *dict, char *name, int id)
 void vissualizeDict(ProdDict dict)
 {
     printf("DICTIONARY\n");
-    printf("%10s|%10s|%15s|%10s|%10s |\n", "Hash Value", "Product ID", "Product Name", "Prodcut Quantity", "Product Price");
+    printf("%10s|%12s|%15s|%10s|%10s|\n", "Hash Value", "Product ID", "Product Name", "Prodcut Quantity", "Product Price");
     for (int i = 0; i < dict.max; ++i)
     {
         if (dict.data[i] != NULL)
         {
             while (dict.data[i] != NULL)
             {
-                printf("%10d|%10d|%15s|%10d|%10.2f |\n", i, dict.data[i]->prod.prodID, dict.data[i]->prod.prodName, dict.data[i]->prod.prodQty, dict.data[i]->prod.prodPrice);
+                printf("%10d|%12d|%15s|%16d|%13.2f|\n", i, dict.data[i]->prod.prodID, dict.data[i]->prod.prodName, dict.data[i]->prod.prodQty, dict.data[i]->prod.prodPrice);
                 dict.data[i] = dict.data[i]->next;
             }
         }
@@ -216,6 +233,25 @@ void vissualizeDict(ProdDict dict)
             printf("%10d|%10s\n", i, "NULL");
         }
     }
+}
+
+bool convertStack(Stack *s, ProdDict *d, Stack *dump)
+{
+    Stack dumpStack;
+    initStack(&dumpStack);
+
+    while (!isEmpty(*s))
+    {
+        add(d, peek(*s));
+        push(&dumpStack, pop(s));
+    }
+
+    while (!isEmpty(dumpStack))
+    {
+        push(dump, pop(&dumpStack));
+    }
+
+    return true;
 }
 
 #endif

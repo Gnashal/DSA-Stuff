@@ -3,16 +3,17 @@
 
 int main()
 {
-    Stack productStack;
+    Stack productStack, dumpStack;
     initStack(&productStack);
+    initStack(&dumpStack);
 
     Product products[] = {
-        createProduct(rand() % 100, "WidgetA", 100, 19.99),
+        createProduct(104, "WidgetA", 100, 19.99),
         createProduct(rand() % 100, "GadgetB", 150, 29.99),
         createProduct(rand() % 100, "WOOWW", 200, 9.99),
         createProduct(rand() % 100, "DoohickeyD", 75, 49.99),
         createProduct(rand() % 100, "ContraptionE", 30, 39.99),
-        createProduct(rand() % 100, "WidgetA", 50, 19.99), // Duplicate ID with different quantity
+        createProduct(104, "WidgetA", 50, 19.99), // Duplicate ID with different quantity
         createProduct(rand() % 100, "GizmoF", 120, 25.99),
         createProduct(rand() % 100, "DoodadG", 80, 15.49),
         createProduct(rand() % 100, "GadgetB", 60, 29.99), // Duplicate product name with different quantity
@@ -37,12 +38,9 @@ int main()
     visualizeStack(productStack);
 
     ProdDict dict = createDict(20);
-    for (int i = 0; i < sizeof(products) / sizeof(products[0]); i++)
-    {
-        add(&dict, products[i]);
-    }
-
+    convertStack(&productStack, &dict, &dumpStack);
     vissualizeDict(dict);
+    visualizeStack(productStack);
 
     // Freeing the data
     for (int i = 0; i < dict.max; ++i)
@@ -53,6 +51,10 @@ int main()
         }
     }
     free(dict.data);
+    while (!isEmpty(dumpStack))
+    {
+        hardPop(&dumpStack);
+    }
 
     return 0;
 }
