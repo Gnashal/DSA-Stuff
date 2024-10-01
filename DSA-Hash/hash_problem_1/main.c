@@ -3,9 +3,8 @@
 
 int main()
 {
-    Stack productStack, dumpStack;
+    Stack productStack;
     initStack(&productStack);
-    initStack(&dumpStack);
 
     Product products[] = {
         createProduct(104, "WidgetA", 100, 19.99),
@@ -38,10 +37,11 @@ int main()
     visualizeStack(productStack);
 
     ProdDict dict = createDict(20);
-    convertStack(&productStack, &dict, &dumpStack);
+    convertStack(&productStack, &dict);
     vissualizeDict(dict);
     visualizeStack(productStack);
 
+    
     // Freeing the data
     for (int i = 0; i < dict.max; ++i)
     {
@@ -51,10 +51,12 @@ int main()
         }
     }
     free(dict.data);
-    while (!isEmpty(dumpStack))
-    {
-        hardPop(&dumpStack);
-    }
+    
+    // Freeing dump stack
+    // while (!isEmpty(dumpStack))
+    // {
+    //     hardPop(&dumpStack);
+    // }
 
     return 0;
 }
