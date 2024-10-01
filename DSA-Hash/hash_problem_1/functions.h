@@ -235,7 +235,7 @@ void vissualizeDict(ProdDict dict)
     }
 }
 
-bool convertStack(Stack *s, ProdDict *d, Stack *dump)
+bool convertStack(Stack *s, ProdDict *d)
 {
     Stack dumpStack;
     initStack(&dumpStack);
@@ -248,7 +248,7 @@ bool convertStack(Stack *s, ProdDict *d, Stack *dump)
 
     while (!isEmpty(dumpStack))
     {
-        push(dump, pop(&dumpStack));
+       hardPop(&dumpStack);
     }
 
     return true;
