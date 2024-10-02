@@ -5,10 +5,15 @@ int main()
 {
     Stack stack = createStack(20);
 
-    push(&stack, '(');
-    push(&stack, ')');
-    push(&stack, '{');
-    push(&stack, '}');
+    char brackets[] = {"((}{)"};
+
+
+    if (checkValidity(&stack, brackets)) {
+        printf("valid\n");
+    } else {
+        printf("not valid\n");
+    }
+
 
     display(stack);
 

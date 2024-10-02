@@ -46,15 +46,19 @@ char pop(Stack *s)
     char popped;
     if (!isEmpty(*s))
     {
-        popped = s->data[s->count];
-        --(s->count);
+        popped = s->data[--(s->count)];
+        return popped;
     }
-    return popped;
+    return '\0';
 }
 
 char peek(Stack s)
 {
-    return s.data[s.count];
+    if (!isEmpty(s))
+    {
+        return s.data[s.count - 1];
+    }
+    return '\0';
 }
 
 void display(Stack s)
@@ -67,6 +71,32 @@ void display(Stack s)
             printf(" ");
         }
     }
+}
+
+bool findParity(char current, char top) {
+     return !((current == '}' && top != '{') ||
+             (current == ')' && top != '(') ||
+             (current == ']' && top != '['));
+ }
+
+bool checkValidity(Stack *s, char *c) {
+    for (int i = 0; c[i] != '\0'; ++i) {
+        char current = c[i];
+        if (current == '{' || current == '(' || current == '[') {
+            push(s, current);
+        } else if (current == '}' || current == ')' || current == ']'){
+            if (isEmpty(*s)) {
+                return false;
+            }
+            char top = pop(s);
+            if (!findParity(current, top)) {
+                return false;
+            }
+        }
+    }
+
+    return isEmpty(*s);
+   
 }
 
 #endif
