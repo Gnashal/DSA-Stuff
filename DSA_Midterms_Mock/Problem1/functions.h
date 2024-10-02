@@ -121,16 +121,21 @@ Person peek(StackList s)
 }
 void getVoters(PersonList voters, char *city, StackList *s)
 {
-    NodePtr newNode = malloc(sizeof(NodeType));
-    if (!newNode)
-    {
-        return;
-    }
     for (int i = 0; i < voters.max; ++i)
     {
         if (strcmp(voters.personList[i].address.city, city) == 0)
         {
-            push(s, voters.personList[i]);
+            NodePtr newNode = malloc(sizeof(NodeType));
+            if (!newNode)
+            {
+                return;
+            }
+            // Giga chad way
+            newNode->data = voters.personList[i];
+            newNode->next = *s;
+            *s = newNode;
+            // Un-comment code below for ez
+            // push(s, voters.personList[i]);
         }
     }
 }
