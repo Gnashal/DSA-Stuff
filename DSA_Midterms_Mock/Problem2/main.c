@@ -1,5 +1,21 @@
 #include <stdio.h>
 #include "functions.h"
+
+void freePerson(Person *p)
+{
+    free(p->name);
+    free(p->add.city);
+}
+
+void freeDict(PersonOpenDict *dict)
+{
+    // Free the dictionary entries if needed
+    for (int i = 0; i < SIZE; ++i)
+    {
+        freePerson(&(dict->list[i]->p));
+    }
+}
+
 int main()
 {
     // person list with a maximum size of 20
@@ -77,6 +93,11 @@ int main()
 
     // Free the allocated memory
     free(names);
+    for (int i = 0; i < 20; ++i)
+    {
+        freePerson(&voters.personList[i]);
+    }
+    freeDict(&dict);
 
     return 0;
 }

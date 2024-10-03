@@ -28,7 +28,8 @@ int main()
     addPerson(&voters, p5);
 
     // Printing all Person List
-    for (int i = 0; i < voters.count; ++i) {
+    for (int i = 0; i < voters.count; ++i)
+    {
         printf("ID: %d \nName: %s \nCity: %s \nZip: %d\n\n", voters.personList[i].id, voters.personList[i].name, voters.personList[i].address.city, voters.personList[i].address.zip);
     }
 

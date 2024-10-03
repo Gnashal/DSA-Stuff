@@ -158,4 +158,55 @@ String *getNames(PersonOpenDict d, String city)
     return names;
 }
 
+void initStack(StackLList *s)
+{
+    *s = NULL;
+}
+
+bool isStackEmpty(StackLList s)
+{
+    return s == NULL;
+}
+
+bool push(StackLList *s, Person p)
+{
+    NodePtr newNode = (NodePtr)malloc(sizeof(NodeType));
+    if (!newNode)
+    {
+        return false;
+    }
+    newNode->p = p;
+    newNode->link = *s;
+    *s = newNode;
+    return true;
+}
+Person pop(StackLList *s)
+{
+    Person popped;
+    Person dummy = {0, ""};
+    if (!isStackEmpty(*s))
+    {
+        popped = (*s)->p;
+        NodePtr holder = *s;
+        *s = (*s)->link;
+        free(holder);
+        return popped;
+    }
+    return dummy;
+}
+bool hardPop(StackLList *s)
+{
+    if (!isStackEmpty(*s))
+    {
+        NodePtr holder = *s;
+        *s = (*s)->link;
+        free(holder);
+        return true;
+    }
+    return false;
+}
+
+// TODO: code the rest of problem 3 and apply the solution I made earlier
+// though this time, try to implement an array for Queues
+
 #endif
