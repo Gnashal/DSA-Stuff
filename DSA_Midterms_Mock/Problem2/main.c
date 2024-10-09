@@ -9,10 +9,23 @@ void freePerson(Person *p)
 
 void freeDict(PersonOpenDict *dict)
 {
-    // Free the dictionary entries if needed
     for (int i = 0; i < SIZE; ++i)
     {
-        freePerson(&(dict->list[i]->p));
+        NodePtr trav = dict->list[i];
+        while (trav != NULL)
+        {
+            NodePtr temp = trav;
+            trav = trav->link;
+            free(temp); // Free the node
+        }
+    }
+}
+
+void freeStack(StackLList *s)
+{
+    while (!isStackEmpty(*s))
+    {
+        hardPop(s);
     }
 }
 
@@ -91,13 +104,30 @@ int main()
         printf("%s\n\n", names[i]);
     }
 
+    // Stack List made here
+    StackLList list;
+    initStack(&list);
+
+    for (int i = 0; i < 16; ++i)
+    {
+        push(&list, voters.personList[i]);
+    }
+    // displayStack(list);
+
+    // Queue made here
+    QueueAList qA = createAQueue();
+    printf("Queues display: \n");
+    stackToQueue(&list, &qA);
+    displayQueues(qA);
+
     // Free the allocated memory
     free(names);
-    for (int i = 0; i < 20; ++i)
+    for (int i = 0; i < 16; ++i)
     {
         freePerson(&voters.personList[i]);
     }
     freeDict(&dict);
+    freeStack(&list);
 
     return 0;
 }

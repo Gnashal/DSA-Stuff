@@ -1,7 +1,7 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
-#define MAX 15
-#define SIZE 30
+#define MAX 16
+#define SIZE 16
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -205,8 +205,140 @@ bool hardPop(StackLList *s)
     }
     return false;
 }
+Person peek(StackLList s)
+{
+    return s->p;
+}
+
+void displayStack(StackLList s)
+{
+    StackLList temp;
+    initStack(&temp);
+    printf("\nStack L List: \n\n");
+    while (!isStackEmpty(s))
+    {
+        Person p = peek(s);
+        printf("ID: %d \nName: %s \nCity: %s \nZip: %d\n\n", p.id, p.name,
+               p.add.city, p.add.zip);
+        push(&temp, pop(&s));
+    }
+    while (!isStackEmpty(temp))
+    {
+        push(&s, peek(temp));
+        hardPop(&temp);
+    }
+}
 
 // TODO: code the rest of problem 3 and apply the solution I made earlier
 // though this time, try to implement an array for Queues
+QueueAList createAQueue()
+{
+    QueueAList newAQ;
+    newAQ.front = 0;
+    newAQ.rear = -1;
+    return newAQ;
+}
+bool isQueueEmpty(QueueAList *q)
+{
+    return (q->rear + 1) % MAX == q->front;
+}
+bool isQueueFull(QueueAList *q)
+{
+    return (q->rear + 2) % MAX == q->front;
+}
+bool enqueue(QueueAList *q, Person p)
+{
+    if (!isQueueFull(q))
+    {
+        q->rear = (q->rear + 1) % MAX;
+        q->list[q->rear] = p;
+        return true;
+    }
+    return false;
+}
 
+bool dequeue(QueueAList *q)
+{
+    if (!isQueueEmpty(q))
+    {
+        q->front = (q->front + 1) % MAX;
+        return true;
+    }
+    return false;
+}
+Person front(QueueAList q)
+{
+    return q.list[q.front];
+}
+
+void stackToQueue(StackLList *s, QueueAList *q)
+{
+    PersonCloseDict cd;
+    cd.max = 16;
+    for (int i = 0; i < cd.max; ++i)
+    {
+        cd.personList[i].id = -1;
+    }
+    int pos;
+    StackLList temp = NULL;
+    NodePtr holder = NULL;
+
+    while (*s != NULL)
+    {
+        pos = hash((*s)->p.id);
+
+        if (cd.personList[pos].id == -1 || cd.personList[pos].id == -2)
+        {
+            cd.personList[pos] = (*s)->p;
+
+            if (!isQueueFull(q))
+            {
+                enqueue(q, (*s)->p);
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            continue;
+        }
+
+        // Move current node to temp stack
+        holder = *s;
+        *s = holder->link;
+        holder->link = temp;
+        temp = holder;
+    }
+
+    // Rebuilding original stack from temp
+    while (temp != NULL)
+    {
+        holder = temp;
+        temp = temp->link;
+        holder->link = *s;
+        *s = holder;
+    }
+}
+
+void displayQueues(QueueAList q)
+{
+    QueueAList temp = createAQueue();
+    while (!isQueueEmpty(&q))
+    {
+        Person p = front(q);
+        printf("ID: %d \nName: %s \nCity: %s \nZip: %d\n\n", p.id, p.name,
+               p.add.city, p.add.zip);
+        enqueue(&temp, p);
+        dequeue(&q);
+    }
+
+    while (!isQueueEmpty(&temp))
+    {
+        Person p = front(temp);
+        enqueue(&q, p);
+        dequeue(&temp);
+    }
+}
 #endif
