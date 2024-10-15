@@ -42,7 +42,7 @@ void initTree(NodePtr *t)
 {
     *t = NULL;
 }
-bool populateTree(NodePtr *t, int data)
+bool insert(NodePtr *t, int data)
 {
     NodePtr newNode = malloc(sizeof(NodeType));
     if (!newNode)

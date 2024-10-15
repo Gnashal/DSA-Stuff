@@ -8,7 +8,7 @@ int main()
 
     for (int i = 1; i <= 15; ++i)
     {
-        if (!populateTree(&tree, (rand() * i) % 100))
+        if (!insert(&tree, (rand() * i) % 100))
         {
             return 0;
         }
