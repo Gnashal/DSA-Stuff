@@ -20,7 +20,7 @@ BinaryHeap createHeap(int size) {
 }
 
 bool insert(BinaryHeap* bh, int data) {
-    int holder,curr = bh->count,  parent;
+    int curr = bh->count,  parent;
     while (curr > 0 && data > bh->data[parent]) {
         parent = (curr - 1) / 2;
         bh->data[curr] = bh->data[parent];
@@ -31,7 +31,7 @@ bool insert(BinaryHeap* bh, int data) {
     return true;
 }
 bool remove(BinaryHeap* bh) {
-    
+
 }
 void display(BinaryHeap bh) {
     for (int i = 0; i < bh.count; ++i) {
