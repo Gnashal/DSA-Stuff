@@ -6,6 +6,8 @@ int main () {
         insert(&heap, i + 1);
     }
     display(heap);
+    removeInHeap(&heap);
+    display(heap);
     free(heap.data);
     return 0;
 }
