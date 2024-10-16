@@ -20,6 +20,7 @@ BinaryHeap createHeap(int size) {
 }
 
 bool insert(BinaryHeap* bh, int data) {
+    if (bh->count >= bh->max) return false;
     int curr = bh->count,  parent;
     while (curr > 0 && data > bh->data[(curr - 1) / 2]) {
         parent = (curr - 1) / 2;
@@ -31,39 +32,37 @@ bool insert(BinaryHeap* bh, int data) {
     return true;
 }
 bool removeInHeap(BinaryHeap* bh) {
-    int curr = bh->count;
-    int lastInserted = bh->data[--(bh->count)];
-    bh->data[0] = lastInserted;
+    if (bh->count == 0) return false;
+    --(bh->count);
     int index =  0;
-    while (index < curr) {
-        int left = (2*index) + 1, right = 2 * index + 2;
-        int larger = index;
-
-
-        if (larger < bh->count && bh->data[left] > bh->data[larger]) {
-            larger = left;
-        }
-        if (larger < bh->count && bh->data[right] > bh->data[larger]) {
-            larger = right;
-        }
-        if (larger == index) {
+    int larger = index;
+    while (index < bh->count) {
+        int left = (2 * index) + 1;
+        if (left > bh->count || left + 1 > bh->count) {
             break;
         }
-        int temp = bh->data[index];
+        larger = (bh->data[left]>bh->data[left+1])? left:left+1;
         bh->data[index] = bh->data[larger];
-        bh->data[larger] = temp;
-
         index = larger;
     }
+    bh->data[index] = bh->data[bh->count];
+    return true;
 }
 void display(BinaryHeap bh) {
+    printf("{");
     for (int i = 0; i < bh.count; ++i) {
         printf("%d", bh.data[i]);
         if (i < bh.count - 1) {
             printf(", ");
         }
     }
-    printf("\n");
+    printf("}\n");
+}
+void freeHeap(BinaryHeap* bh) {
+    free(bh->data);
+    bh->data = NULL;
+    bh->count = 0;
+    bh->max = 0;
 }
 
 
