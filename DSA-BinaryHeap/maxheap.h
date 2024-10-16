@@ -21,7 +21,7 @@ BinaryHeap createHeap(int size) {
 
 bool insert(BinaryHeap* bh, int data) {
     int curr = bh->count,  parent;
-    while (curr > 0 && data > bh->data[parent]) {
+    while (curr > 0 && data > bh->data[(curr - 1) / 2]) {
         parent = (curr - 1) / 2;
         bh->data[curr] = bh->data[parent];
         curr = parent;
