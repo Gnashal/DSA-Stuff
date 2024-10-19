@@ -39,13 +39,14 @@ bool removeInHeap(BinaryHeap *bh)
 {
     if (bh->count == 0)
         return false;
+    int last = bh->data[(bh->count - 1)];
     --(bh->count);
     int index = 0;
     int larger = index;
     while (index < bh->count)
     {
         int left = (2 * index) + 1;
-        if (left > bh->count || left + 1 > bh->count)
+        if (left >= bh->count || left + 1 >= bh->count)
         {
             break;
         }
@@ -53,7 +54,7 @@ bool removeInHeap(BinaryHeap *bh)
         bh->data[index] = bh->data[larger];
         index = larger;
     }
-    bh->data[index] = bh->data[bh->count];
+    bh->data[index] = last;
     return true;
 }
 void display(BinaryHeap bh)
@@ -118,12 +119,30 @@ bool build_max_heap(int *arr, int size)
         heapify_max(arr, size, i);
     }
 }
+
 void freeHeap(BinaryHeap *bh)
 {
     free(bh->data);
     bh->data = NULL;
     bh->count = 0;
     bh->max = 0;
+}
+int findNthLargestElement(int *arr, int size, int n)
+{
+    BinaryHeap bh = createHeap(size);
+    for (int i = 0; i < size; ++i)
+    {
+        insert(&bh, arr[i]);
+    }
+    display(bh);
+    for (int i = 1; i < n; ++i)
+    {
+        removeInHeap(&bh);
+        display(bh);
+    }
+    int returnElems = bh.data[0];
+    freeHeap(&bh);
+    return returnElems;
 }
 
 #endif
