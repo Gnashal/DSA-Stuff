@@ -144,12 +144,16 @@ void displayWeapons(TreeNodePtr t)
     printf("Attack Damage: %d\n", t->data.atk_dmg);
     printf("Durability: %d\n\n", t->data.durability);
 }
+void dumbDisplay(TreeNodePtr t)
+{
+    printf("%s | ", t->data.name);
+}
 void inorderTraversal(TreeNodePtr root)
 {
     if (root)
     {
         inorderTraversal(root->left);
-        displayWeapons(root);
+        dumbDisplay(root);
         inorderTraversal(root->right);
     }
     return;
