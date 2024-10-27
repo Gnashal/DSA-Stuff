@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 // Weapon structure
 typedef struct Weapon
@@ -38,7 +39,7 @@ void initTree(TreeNodePtr *t)
 {
     *t = NULL;
 }
-// Default insertion is by weapon_id
+
 bool insertNode(TreeNodePtr *root, Weapon data)
 {
     TreeNodePtr newNode = (TreeNodePtr)malloc(sizeof(TreeNode));
@@ -64,7 +65,7 @@ bool insertNode(TreeNodePtr *root, Weapon data)
     *trav = newNode;
     return true;
 }
-// Finding a weapon via weapon_id
+
 Weapon searchTree(TreeNodePtr *root, int weapon_id)
 {
     Weapon found;
@@ -90,10 +91,56 @@ Weapon searchTree(TreeNodePtr *root, int weapon_id)
 
     return found;
 }
+TreeNodePtr findSuccessor(TreeNodePtr root)
+{
+    if (!root)
+        return NULL;
+    while (root->left)
+    {
+        root = root->left;
+    }
+    return root;
+}
+bool deleteNode(TreeNodePtr *root, int search_id)
+{
+    if (!root)
+    {
+        return false;
+    }
+    if (search_id < (*root)->data.weapon_id)
+    {
+        return deleteNode(&(*root)->left, search_id);
+    }
+    else if (search_id > (*root)->data.weapon_id)
+    {
+        return deleteNode(&(*root)->right, search_id);
+    }
+    else
+    {
+        if (!(*root)->left && !(*root)->right)
+        {
+            free(*root);
+            *root = NULL;
+        }
+        else if (!(*root)->left || !(*root)->right)
+        {
+            TreeNodePtr temp = *root;
+            *root = (*root)->left ? (*root)->left : (*root)->right;
+            free(temp);
+        }
+        else
+        {
+            TreeNodePtr temp = findSuccessor((*root)->right);
+            (*root)->data = temp->data;
+            return deleteNode(&(*root)->right, temp->data.weapon_id);
+        }
+        return true;
+    }
+}
 void displayWeapons(TreeNodePtr t)
 {
     printf("Weapon ID: %d\n", t->data.weapon_id);
-    printf("Name: %s\n", t->data.name);
+    printf("Name: %s\n", strupr(t->data.name));
     printf("Attack Damage: %d\n", t->data.atk_dmg);
     printf("Durability: %d\n\n", t->data.durability);
 }
@@ -107,6 +154,7 @@ void inorderTraversal(TreeNodePtr root)
     }
     return;
 }
+
 void freeTree(TreeNodePtr root)
 {
     if (root)

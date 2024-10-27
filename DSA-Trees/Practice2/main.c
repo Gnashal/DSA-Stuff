@@ -21,7 +21,7 @@ int main()
     inorderTraversal(root);
 
     // Search for a weapon
-    int search_id = 2;
+    int search_id = 1;
     Weapon foundWeapon = searchTree(&root, search_id);
     if (foundWeapon.weapon_id != -1)
     {
@@ -32,9 +32,21 @@ int main()
     {
         printf("\nWeapon with ID %d not found.\n", search_id);
     }
+    // Deleting a node
+    printf("Node Deletion: \n");
+    int delete_id = 1;
+    if (deleteNode(&root, delete_id))
+    {
+        inorderTraversal(root);
+    }
+    else
+    {
+        printf("deletion failed");
+    }
 
     // Free the tree
     freeTree(root);
+
     printf("Tree Freed!\n");
 
     return 0;
