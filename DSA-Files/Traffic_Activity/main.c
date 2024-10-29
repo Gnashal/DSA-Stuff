@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include "traffic.h"
-int main () {
+int main()
+{
     Heap trafficList;
     initHeap(&trafficList);
-    TrafficData trafficDataArray[10];
-
+    TrafficData trafficDataArray[12];
 
     trafficDataArray[0] = createData("M", 5);
     trafficDataArray[1] = createData("PM", 10);
@@ -20,12 +20,19 @@ int main () {
     trafficDataArray[11] = createData("PD", 12);
     trafficDataArray[12] = createData("PR", 6);
 
-
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 12; ++i)
+    {
         enqueue(&trafficList, trafficDataArray[i]);
     }
-    for (int i = 0; i < trafficList.count - 1; ++i) {
-            displayData(trafficList.data[i]);
-    }
+    displayAllData(&trafficList);
+    dequeue(&trafficList);
+    displayAllData(&trafficList);
+    dequeue(&trafficList);
+    displayAllData(&trafficList);
+    dequeue(&trafficList);
+    displayAllData(&trafficList);
+    dequeue(&trafficList);
+    displayAllData(&trafficList);
+
     return 0;
 }
