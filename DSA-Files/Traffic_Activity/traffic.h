@@ -221,9 +221,6 @@ int findTotalTime(char* filename) {
     int i = 0;
     while (i < tempHeap.count && tempHeap.data[i].desc < PM) {
         TrafficData td = tempHeap.data[i];
-        if (td.desc == PD) {
-            break;
-        }
         totalTime += td.time;
         ++i;
         dequeue(&tempHeap);
