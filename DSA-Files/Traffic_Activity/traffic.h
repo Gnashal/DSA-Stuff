@@ -8,14 +8,15 @@
 
 typedef enum
 {
-    PM = 1,
-    PD,
-    M,
+    M = 1,
     D,
     ML,
     DL,
     MR,
-    DR
+    DR,
+    PM, 
+    PD
+
 } Description;
 
 typedef struct
@@ -194,6 +195,40 @@ int readFile (const char* filename) {
     fclose(file);
     displayAllData(&tempHeap);
     return EXIT_SUCCESS;
+}
+
+int findTotalTime(char* filename) {
+    FILE* file = fopen(filename, "rb");
+    if (!file ) {
+        return EXIT_FAILURE;
+    }
+
+    Heap tempHeap;
+    initHeap(&tempHeap);
+    fread(&tempHeap.count, sizeof(int), 1, file);
+    for (int i = 0; i < tempHeap.count;++i) {
+        TrafficData tempData;
+        if (fread(&tempData, sizeof(TrafficData), 1, file) == 1) {
+            tempHeap.data[i] = tempData;
+        }else {
+            fclose(file);
+            return EXIT_FAILURE;
+        }
+    }
+    fclose(file);
+
+    int totalTime = 0;
+    int i = 0;
+    while (i < tempHeap.count && tempHeap.data[i].desc < PM) {
+        TrafficData td = tempHeap.data[i];
+        if (td.desc == PD) {
+            break;
+        }
+        totalTime += td.time;
+        ++i;
+        dequeue(&tempHeap);
+    }
+    return totalTime;
 }
 
 #endif

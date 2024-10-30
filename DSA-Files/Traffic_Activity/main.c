@@ -27,6 +27,11 @@ int main()
     
     char* filename = writeToFile(&trafficList, "traffic.dat");
     readFile(filename);
+    printf("Total Time it takes for Pedestrians to cross the road: ");
+    int totalTime = findTotalTime(filename);
+    if (totalTime != EXIT_FAILURE) {
+        printf("%d\n", totalTime);
+    }
 
 
 
