@@ -24,15 +24,11 @@ int main()
     {
         enqueue(&trafficList, trafficDataArray[i]);
     }
-    displayAllData(&trafficList);
-    dequeue(&trafficList);
-    displayAllData(&trafficList);
-    dequeue(&trafficList);
-    displayAllData(&trafficList);
-    dequeue(&trafficList);
-    displayAllData(&trafficList);
-    dequeue(&trafficList);
-    displayAllData(&trafficList);
+    
+    char* filename = writeToFile(&trafficList, "traffic.dat");
+    readFile(filename);
+
+
 
     return 0;
 }

@@ -145,11 +145,55 @@ void displayData(TrafficData td)
 void displayAllData(Heap *trafficList)
 {
     printf("_________________________\n");
-    for (int i = 0; i < trafficList->count - 1; ++i)
+    for (int i = 0; i < trafficList->count; ++i)
     {
         displayData(trafficList->data[i]);
     }
     printf("_________________________\n");
+}
+
+char * writeToFile(const Heap * hp, const char* filename) {
+    FILE* file = fopen(filename, "wb");
+    if(!file) {
+        perror("Error opening file");
+        return NULL;
+    }
+    fwrite(&hp->count, sizeof(int), 1 , file);
+        for (int i = 0; i < hp->count; i++)
+        {
+            fwrite(&hp->data[i], sizeof(TrafficData), 1, file);
+        }
+
+        fclose(file);
+        return (char*)filename;
+}
+
+
+
+int readFile (const char* filename) {
+    FILE *file = fopen(filename, "rb");
+    if (!file) {
+        perror("Error reading file");
+        return EXIT_FAILURE; 
+    }
+
+    Heap tempHeap;
+    initHeap(&tempHeap);
+
+    fread(&tempHeap.count, sizeof(int), 1 ,file);
+
+    for (int i = 0; i < tempHeap.count; ++i) {
+        TrafficData tempData;
+        if (fread(&tempData, sizeof(TrafficData), 1, file) == 1) {
+            tempHeap.data[i] =  tempData;
+        } else {
+            fclose(file);
+            return EXIT_FAILURE;
+        }
+    }
+    fclose(file);
+    displayAllData(&tempHeap);
+    return EXIT_SUCCESS;
 }
 
 #endif
