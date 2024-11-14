@@ -30,7 +30,7 @@ int main()
     // printf("\nInorder traversal of weapons in the tree:\n");
 
     // Search for a weapon
-    int search_id = 7;
+    int search_id = 1;
     Weapon foundWeapon = searchTree(&root, search_id);
     if (foundWeapon.weapon_id != -1)
     {

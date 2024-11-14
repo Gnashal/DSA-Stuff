@@ -203,6 +203,8 @@ int findTotalTime(char* filename) {
         return EXIT_FAILURE;
     }
 
+    
+
     Heap tempHeap;
     initHeap(&tempHeap);
     fread(&tempHeap.count, sizeof(int), 1, file);

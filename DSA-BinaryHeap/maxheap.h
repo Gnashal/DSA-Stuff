@@ -25,7 +25,7 @@ bool insert(BinaryHeap *bh, int data)
     if (bh->count >= bh->max)
         return false;
     int curr = bh->count, parent;
-    while (curr > 0 && data > bh->data[(curr - 1) / 2])
+    while (curr > 0 && data < bh->data[(curr - 1) / 2])
     {
         parent = (curr - 1) / 2;
         bh->data[curr] = bh->data[parent];
@@ -42,17 +42,28 @@ bool removeInHeap(BinaryHeap *bh)
     int last = bh->data[(bh->count - 1)];
     --(bh->count);
     int index = 0;
-    int larger = index;
+    int lesser = index;
     while (index < bh->count)
     {
         int left = (2 * index) + 1;
-        if (left >= bh->count || left + 1 >= bh->count)
+        if (left >= bh->count)
         {
             break;
         }
-        larger = (bh->data[left] > bh->data[left + 1]) ? left : left + 1;
-        bh->data[index] = bh->data[larger];
-        index = larger;
+        if (left + 1 < bh->count && bh->data[left + 1] < bh->data[left])
+        {
+            lesser = left + 1;
+        }
+        else
+        {
+            lesser = left;
+        }
+        if (last <= bh->data[lesser])
+        {
+            break;
+        }
+        bh->data[index] = bh->data[lesser];
+        index = lesser;
     }
     bh->data[index] = last;
     return true;

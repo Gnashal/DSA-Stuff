@@ -68,7 +68,7 @@ bool insertNode(TreeNodePtr *root, Weapon data)
 
 Weapon searchTree(TreeNodePtr *root, int weapon_id)
 {
-    Weapon found;
+    Weapon found = createWeapon(0, 0, 0, "Not Found");
     TreeNodePtr *trav = root;
 
     while (*trav)
@@ -76,6 +76,10 @@ Weapon searchTree(TreeNodePtr *root, int weapon_id)
         if ((*trav)->data.weapon_id == weapon_id)
         {
             found = (*trav)->data;
+            break;
+        }
+        else
+        {
             break;
         }
 
@@ -117,17 +121,20 @@ bool deleteNode(TreeNodePtr *root, int search_id)
     }
     else
     {
+        // Checking if leaf node
         if (!(*root)->left && !(*root)->right)
         {
             free(*root);
             *root = NULL;
         }
+        // Checking if only 1 child exits in this node
         else if (!(*root)->left || !(*root)->right)
         {
             TreeNodePtr temp = *root;
             *root = (*root)->left ? (*root)->left : (*root)->right;
             free(temp);
         }
+        // Checking if this node has 2 children
         else
         {
             TreeNodePtr temp = findSuccessor((*root)->right);
