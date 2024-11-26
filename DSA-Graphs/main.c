@@ -9,17 +9,21 @@ int main () {
     Name name3 = createName("Alice", "Johnson");
     Name name4 = createName("Alice", "May");
 
-    NodePtr node1 = createNode(name1);
-    NodePtr node2 = createNode(name2);
-    NodePtr node3 = createNode(name3);
-    NodePtr node4 = createNode(name4);
+    NodePtr a = createNode(name1, 0);
+    NodePtr b = createNode(name2, 0);
+    NodePtr c = createNode(name3, 0);
+    NodePtr d = createNode(name4, 0);
 
 
     // Insert nodes into the graph
-    insertToGraph(node1, &graph);
-    insertToGraph(node2, &graph);
-    insertToGraph(node3, &graph);
-    insertToGraph(node4, &graph);
+    insertToGraph(a, &graph);
+    insertToGraph(b, &graph);
+    insertToGraph(c, &graph);
+    insertToGraph(d, &graph);
+
+    addEdge(&graph, a, b, 4);
+    addEdge(&graph, a, c, 1);
+    addEdge(&graph, b, c, 2);
 
     // Display the graph
     printf("Graph contents:\n");
