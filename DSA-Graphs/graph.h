@@ -6,35 +6,37 @@
 #include <stdbool.h>
 #include <string.h>
 
-
 #define MAX 100
 
-
-
-typedef struct {
+typedef struct
+{
     char fname[20];
     char lname[20];
-}Name;
+} Name;
 
-typedef struct node {
+typedef struct node
+{
     Name name;
     int weight;
-    struct node * next;
-}Node, *NodePtr;
+    struct node *next;
+} Node, *NodePtr;
 
-typedef struct {
+typedef struct
+{
     int vertices;
-    NodePtr * adjNodes;
-}Graph;
+    NodePtr *adjNodes;
+} Graph;
 
-Name createName(char* fname, char * lname) {
+Name createName(char *fname, char *lname)
+{
     Name newName;
-    strcpy(newName.fname ,fname);
-    strcpy(newName.lname ,lname);
+    strcpy(newName.fname, fname);
+    strcpy(newName.lname, lname);
     return newName;
 }
 
-NodePtr createNode(Name name, int weight) {
+NodePtr createNode(Name name, int weight)
+{
     NodePtr newNode = (NodePtr)malloc(sizeof(Node));
     newNode->name = name;
     newNode->weight = weight;
@@ -42,31 +44,36 @@ NodePtr createNode(Name name, int weight) {
     return newNode;
 }
 
-
-
-Graph createGraph() {
+Graph createGraph()
+{
     Graph newGraph;
     newGraph.vertices = 0;
-    newGraph.adjNodes = (NodePtr*)malloc(sizeof(NodePtr) * MAX);
-     for (int i = 0; i < MAX; i++) {
+    newGraph.adjNodes = (NodePtr *)malloc(sizeof(NodePtr) * MAX);
+    for (int i = 0; i < MAX; i++)
+    {
         newGraph.adjNodes[i] = NULL;
     }
     return newGraph;
 }
 
-unsigned long hash(char* fname, char* lname) {
+unsigned long hash(char *fname, char *lname)
+{
     unsigned long hash = 5381;
     int c;
-    while ((c = *fname++)) {
+    while ((c = *fname++))
+    {
         hash = ((hash << 5) + hash) + c;
     }
-    while ((c = *lname++)) {
+    while ((c = *lname++))
+    {
         hash = ((hash << 5) + hash) + c;
     }
     return hash % MAX;
 }
-bool insertToGraph(NodePtr newNode, Graph* gh) {
-    if (!newNode) {
+bool insertToGraph(NodePtr newNode, Graph *gh)
+{
+    if (!newNode)
+    {
         return false;
     }
     int pos = hash(newNode->name.fname, newNode->name.lname);
@@ -75,12 +82,16 @@ bool insertToGraph(NodePtr newNode, Graph* gh) {
     return true;
 }
 
-bool addConnection(NodePtr from, NodePtr to,Graph * gh) {
+bool addConnection(NodePtr from, NodePtr to, Graph *gh)
+{
     int pos = hash(from->name.fname, from->name.lname);
     NodePtr curr = gh->adjNodes[pos];
-    if (!curr) {
+    if (!curr)
+    {
         gh->adjNodes[pos] = to;
-    } else {
+    }
+    else
+    {
         while (curr->next)
         {
             curr = curr->next;
@@ -90,27 +101,29 @@ bool addConnection(NodePtr from, NodePtr to,Graph * gh) {
     return true;
 }
 
-bool addEdge(Graph* gh, NodePtr from, NodePtr to, int weight) {
+bool addEdge(Graph *gh, NodePtr from, NodePtr to, int weight)
+{
     NodePtr newNode = createNode(to->name, weight);
-    if (!newNode) {
+    if (!newNode)
+    {
         return false;
     }
-    return addConnection(from ,newNode, gh);
+    return addConnection(from, newNode, gh);
 }
 
-
-
-
-void display(Graph gh) {
-    for (int i = 0; i < MAX; ++i) {
-        if (gh.adjNodes[i]) {
+void display(Graph gh)
+{
+    for (int i = 0; i < MAX; ++i)
+    {
+        if (gh.adjNodes[i])
+        {
             NodePtr curr = gh.adjNodes[i];
             printf("%s: ", curr->name.fname);
             curr = curr->next;
             while (curr)
             {
                 Name name = curr->name;
-                printf("(W: %d, %s) -> ",curr->weight,name.fname);
+                printf("(%d, %s) -> ", curr->weight, name.fname);
                 curr = curr->next;
             }
             printf("\n");
@@ -118,10 +131,13 @@ void display(Graph gh) {
     }
 }
 
-void freeGraph(Graph * gh) {
-    for (int i = 0;  i < gh->vertices; ++i) {
+void freeGraph(Graph *gh)
+{
+    for (int i = 0; i < gh->vertices; ++i)
+    {
         NodePtr curr = gh->adjNodes[i];
-        while (curr) {
+        while (curr)
+        {
             NodePtr temp = curr;
             curr = curr->next;
             free(temp);

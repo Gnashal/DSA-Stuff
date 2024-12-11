@@ -48,7 +48,7 @@ bool insert(NodePtr *t, int data)
     if (!newNode)
     {
         return false;
-    }
+    }   
     newNode->data = data;
     newNode->left = newNode->right = NULL;
     NodePtr *trav = t;
